@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق التلاوات</title>
+    <link rel="stylesheet" href="fontawesome-free-6.4.0-web/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #0288d1;
+            --primary-light: #4fc3f7;
+            --white: #ffffff;
+            --text-main: #263238;
+            --shadow: 0 10px 30px rgba(2, 136, 209, 0.1);
+        }
+        
+        body {
+            background: var(--white);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 200px;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        .app-icon {
+            width: 130px;
+            height: 130px;
+            background: var(--primary);
+            border-radius: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 30px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+        
+        .app-icon i {
+            font-size: 70px;
+            color: var(--white);
+        }
+        
+        .title {
+            color: var(--text-main);
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .title span {
+            color: var(--primary);
+        }
+        
+        .subtitle {
+            color: #78909c;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .loading {
+            display: none;
+            color: var(--primary);
+            font-size: 14px;
+            margin-top: 20px;
+        }
+        
+        .tap-instruction {
+            color: #90a4ae;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+        
+        .tap-instruction i {
+            color: var(--primary);
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="app-icon" id="appIcon">
+            <i class="fas fa-mosque"></i>
+        </div>
+        
+        <h1 class="title">تلاوات <span></span></h1>
+        <p class="subtitle">                يحتوي التطبيق على مجموعة مميزة من التلاوات المختارة بعناية لتوفير تجربة استماع مريحة ومفيدة.</p>
+        
+        <div class="loading" id="loading">
+
+        </div>
+        
+        <div class="tap-instruction">
+            انقر على الأيقونة لفتح التطبيق <i class="fas fa-hand-point-up"></i>
+        </div>
+    </div>
+
+    <script>
+        const appIcon = document.getElementById('appIcon');
+        const loading = document.getElementById('loading');
+        
+        appIcon.addEventListener('click', function() {
+            
+            loading.style.display = 'block';
+            
+            
+            this.innerHTML = '<i class="fas fa-mosque"></i>';
+            
+            
+            setTimeout(function() {
+                window.location.href = 'indexr.html';
+            }, 500);
+        });
+    </script>
+</body>
+</html>
