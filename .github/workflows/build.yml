@@ -33,12 +33,12 @@ jobs:
           npx cap init "آية اليوم" "com.ayah.today" --web-dir www
           npx cap add android
 
-      - name: Android Permissions & Status Bar Config
+      - name: Fix Android Manifest & Styles
         run: |
-          # إضافة صلاحيات الإنترنت والتخزين والوسائط لأندرويد 13+
-          sed -i '/<application/i \    <uses-permission android:name="android:permission.INTERNET" />\n    <uses-permission android:name="android:permission.READ_MEDIA_IMAGES" />\n    <uses-permission android:name="android:permission.READ_EXTERNAL_STORAGE" />\n    <uses-permission android:name="android:permission.WRITE_EXTERNAL_STORAGE" />' android/app/src/main/AndroidManifest.xml
+          # إضافة الصلاحيات بشكل صريح ومضمون قبل وسام application
+          sed -i '/<application/i \    <uses-permission android:name="android:permission.INTERNET" />\n    <uses-permission android:name="android:permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />\n    <uses-permission android:name="android:permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />\n    <uses-permission android:name="android:permission.READ_MEDIA_IMAGES" />' android/app/src/main/AndroidManifest.xml
           
-          # تعديل ملف Styles لضمان عدم تداخل شريط الحالة مع التصميم وجعل الخلفية بيضاء افتراضياً
+          # جعل شريط الحالة أبيض مع أيقونات سوداء من النظام
           sed -i 's/windowNoTitle">true/windowNoTitle">true<\/item><item name="android:windowLightStatusBar">true<\/item><item name="android:statusBarColor">#FFFFFF/g' android/app/src/main/res/values/styles.xml
 
       - name: Sync Android
@@ -71,5 +71,5 @@ jobs:
       - name: Upload Final APK
         uses: actions/upload-artifact@v4
         with:
-          name: AyahToday-Final-Fixed
+          name: AyahToday-Storage-Fixed
           path: ${{ steps.sign_app.outputs.signedReleaseFile }}
