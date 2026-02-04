@@ -54,15 +54,18 @@ jobs:
 
       - name: Sign APK
         uses: r0adkll/sign-android-release@v1
+        id: sign_app
         with:
           releaseDirectory: android/app/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
           alias: ${{ secrets.KEY_ALIAS }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.KEYSTORE_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
 
       - name: Upload Final APK
         uses: actions/upload-artifact@v4
         with:
           name: AyahToday-Signed-Final
-          path: android/app/build/outputs/apk/release/*.apk
+          path: ${{ steps.sign_app.outputs.signedReleaseFile }}
