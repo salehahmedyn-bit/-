@@ -8,81 +8,86 @@
     <style>
         :root { --primary: #FFB300; }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
         body {
             height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
             font-family: 'Arial', sans-serif;
-            background: url('fds.png') no-repeat center center fixed;
+            background: #fdfdfd url('fds.png') no-repeat center center fixed;
             background-size: cover; overflow: hidden;
         }
+
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: white url('fdss.png') no-repeat center center;
             background-size: cover; z-index: 9999;
-            transition: opacity 0.5s ease;
         }
+
         .theme-bar {
-            position: absolute; top: calc(20px + env(safe-area-inset-top)); width: 85%; max-width: 350px;
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 6px;
-            background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(8px);
-            padding: 8px; border-radius: 15px; z-index: 100;
+            position: absolute; top: calc(40px + env(safe-area-inset-top)); width: 85%; max-width: 350px;
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(10px);
+            padding: 10px; border-radius: 20px; z-index: 100;
         }
-        .dot { width: 14px; height: 14px; border-radius: 50%; cursor: pointer; border: 1px solid rgba(0,0,0,0.05); }
-        .capture-wrapper { padding: 20px; display: flex; align-items: center; justify-content: center; }
+
+        .dot { width: 18px; height: 18px; border-radius: 50%; cursor: pointer; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
         .verse-card {
-            width: 280px; background: rgba(255, 255, 255, 0.95); border-radius: 25px;
-            padding: 40px 20px 25px 20px; text-align: center; position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            width: 300px; background: rgba(255, 255, 255, 0.98); border-radius: 30px;
+            padding: 45px 25px 30px 25px; text-align: center; position: relative;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
         }
+
         .quote-icon {
-            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-            width: 40px; height: 35px; background: var(--primary); border-radius: 10px;
-            display: flex; align-items: center; justify-content: center; color: white;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+            width: 50px; height: 45px; background: var(--primary); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1); transition: background 0.3s;
         }
-        .quote-icon svg { width: 16px; height: 16px; fill: white; }
-        .verse-text { font-size: 17px; font-weight: bold; color: #444; line-height: 1.6; margin-bottom: 15px; min-height: 50px; display: inline-block; width: 100%; }
-        .quran-bracket { color: var(--primary); font-size: 20px; margin: 0 3px; }
-        .verse-source { font-size: 10px; color: var(--primary); font-weight: bold; opacity: 0.7; }
-        .controls { margin-top: 20px; display: flex; gap: 15px; padding-bottom: env(safe-area-inset-bottom); }
+
+        .verse-text { font-size: 18px; font-weight: bold; color: #333; line-height: 1.7; margin-bottom: 20px; }
+        .quran-bracket { color: var(--primary); font-size: 22px; }
+        .verse-source { font-size: 12px; color: var(--primary); font-weight: bold; opacity: 0.8; }
+
+        .controls { margin-top: 30px; display: flex; gap: 20px; }
         .btn-action {
-            width: 45px; height: 45px; background: white; border: none; border-radius: 50%;
-            color: var(--primary); cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center;
+            width: 55px; height: 55px; background: white; border: none; border-radius: 50%;
+            color: var(--primary); cursor: pointer; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
         }
-        .btn-action svg { width: 18px; height: 18px; fill: currentColor; }
+        .btn-action svg { width: 22px; height: 22px; fill: currentColor; }
         .btn-action.primary { background: var(--primary); color: white; }
     </style>
 </head>
-<body class="t-amber" id="mainBody">
+<body>
+
     <div id="splash-screen"></div>
+
     <div class="theme-bar">
-        <div class="dot" style="background: #FFB300;" onclick="changeTheme('t-amber')"></div>
-        <div class="dot" style="background: #2e7d32;" onclick="changeTheme('t-emerald')"></div>
-        <div class="dot" style="background: #0288d1;" onclick="changeTheme('t-blue')"></div>
-        <div class="dot" style="background: #7b1fa2;" onclick="changeTheme('t-purple')"></div>
-        <div class="dot" style="background: #c2185b;" onclick="changeTheme('t-rose')"></div>
-        <div class="dot" style="background: #00796b;" onclick="changeTheme('t-teal')"></div>
-        <div class="dot" style="background: #f57c00;" onclick="changeTheme('t-orange')"></div>
-        <div class="dot" style="background: #303f9f;" onclick="changeTheme('t-indigo')"></div>
-        <div class="dot" style="background: #5d4037;" onclick="changeTheme('t-brown')"></div>
-        <div class="dot" style="background: #212121;" onclick="changeTheme('t-black')"></div>
+        <div class="dot" style="background: #FFB300;" onclick="changeTheme('#FFB300')"></div>
+        <div class="dot" style="background: #2e7d32;" onclick="changeTheme('#2e7d32')"></div>
+        <div class="dot" style="background: #0288d1;" onclick="changeTheme('#0288d1')"></div>
+        <div class="dot" style="background: #7b1fa2;" onclick="changeTheme('#7b1fa2')"></div>
+        <div class="dot" style="background: #c2185b;" onclick="changeTheme('#c2185b')"></div>
+        <div class="dot" style="background: #000000;" onclick="changeTheme('#000000')"></div>
     </div>
-    <div class="capture-wrapper" id="captureArea">
+
+    <div id="captureArea" style="padding: 40px; background: transparent;">
         <div class="verse-card">
-            <div class="quote-icon">
+            <div class="quote-icon" id="iconBox">
                 <svg viewBox="0 0 448 512"><path d="M0 216C0 149.7 53.7 96 120 96h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8c-39.8 0-72 32.2-72 72v24h80c26.5 0 48 21.5 48 48v128c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V216zm256 0c0-66.3 53.7-120 120-120h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8c-39.8 0-72 32.2-72 72v24h80c26.5 0 48 21.5 48 48v128c0 26.5-21.5 48-48 48H304c-26.5 0-48-21.5-48-48V216z"/></svg>
             </div>
             <div class="verse-text">
-                <span class="quran-bracket">﴿</span><span id="ayah">...</span><span class="quran-bracket">﴾</span>
+                <span class="quran-bracket">﴿</span><span id="ayah">جاري التحميل...</span><span class="quran-bracket">﴾</span>
             </div>
             <div class="verse-source" id="source">...</div>
         </div>
     </div>
+
     <div class="controls">
         <button class="btn-action" onclick="loadVerse()">
             <svg viewBox="0 0 512 512"><path d="M463.5 224H472c13.3 0 24-10.7 24-24V72c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8H463.5z"/></svg>
         </button>
-        <button class="btn-action primary" onclick="generateImage()">
+        <button class="btn-action primary" id="mainBtn" onclick="saveImage()">
             <svg viewBox="0 0 512 512"><path d="M149.1 64.8L138.7 96H64C28.7 96 0 124.7 0 160V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H373.3L362.9 64.8C356.4 45.2 338.1 32 317.4 32H194.6c-20.7 0-39 13.2-45.5 32.8zM256 192a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"/></svg>
         </button>
     </div>
@@ -92,55 +97,54 @@
         const { Filesystem, Directory, StatusBar, Style } = Capacitor.Plugins;
         let cachedData = null;
 
-        window.onload = async () => {
+        async function initApp() {
             try {
                 await StatusBar.setBackgroundColor({ color: '#ffffff' });
-                await StatusBar.setStyle({ style: Style.Light });
+                await StatusBar.setStyle({ style: Style.Light }); // أيقونات سوداء
             } catch(e) {}
+            
             setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                splash.style.opacity = '0';
-                setTimeout(() => splash.remove(), 500);
-            }, 2500);
+                document.getElementById('splash-screen').style.display = 'none';
+            }, 3000);
             loadVerse();
-        };
-
-        function changeTheme(cls) { document.getElementById('mainBody').className = cls; }
-
-        async function loadVerse() {
-            try {
-                if (!cachedData) {
-                    const response = await fetch('quran.txt');
-                    cachedData = await response.json();
-                }
-                const randomSurah = cachedData[Math.floor(Math.random() * cachedData.length)];
-                const randomVerse = randomSurah.verses[Math.floor(Math.random() * randomSurah.verses.length)];
-                document.getElementById('ayah').innerText = randomVerse.text;
-                document.getElementById('source').innerText = `سورة ${randomSurah.name} • آية ${randomVerse.id}`;
-            } catch (e) { document.getElementById('ayah').innerText = "خطأ في البيانات"; }
         }
 
-        async function generateImage() {
-            const area = document.getElementById('captureArea');
-            const canvas = await html2canvas(area, { scale: 3, backgroundColor: null });
+        function changeTheme(color) {
+            document.documentElement.style.setProperty('--primary', color);
+            document.getElementById('iconBox').style.background = color;
+            document.getElementById('mainBtn').style.background = color;
+            const sources = document.getElementsByClassName('verse-source');
+            for(let s of sources) s.style.color = color;
+            const brackets = document.getElementsByClassName('quran-bracket');
+            for(let b of brackets) b.style.color = color;
+        }
+
+        async function loadVerse() {
+            if (!cachedData) {
+                const res = await fetch('quran.txt');
+                cachedData = await res.json();
+            }
+            const s = cachedData[Math.floor(Math.random() * cachedData.length)];
+            const v = s.verses[Math.floor(Math.random() * s.verses.length)];
+            document.getElementById('ayah').innerText = v.text;
+            document.getElementById('source').innerText = `سورة ${s.name} • آية ${v.id}`;
+        }
+
+        async function saveImage() {
+            const canvas = await html2canvas(document.getElementById('captureArea'), { scale: 3, backgroundColor: null });
             const base64Data = canvas.toDataURL("image/png").split(',')[1];
-            const fileName = `Ayah_${Date.now()}.png`;
-            
             try {
                 await Filesystem.writeFile({
-                    path: fileName,
+                    path: `Ayah_${Date.now()}.png`,
                     data: base64Data,
                     directory: Directory.Documents,
                     recursive: true
                 });
-                alert("تم الحفظ في المستندات");
-            } catch (e) {
-                const link = document.createElement('a');
-                link.download = fileName;
-                link.href = canvas.toDataURL("image/png");
-                link.click();
-            }
+                alert("تم الحفظ في المجلد الخاص بنجاح");
+            } catch (e) { alert("يرجى تفعيل صلاحية التخزين من إعدادات التطبيق"); }
         }
+
+        window.onload = initApp;
     </script>
 </body>
 </html>
