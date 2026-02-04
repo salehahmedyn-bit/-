@@ -1,15 +1,14 @@
-name: Build Android APK
+name: Build Signed Android APK
 
 on:
   push:
-    branches: [ main ] # سيعمل التلقائي عند الدفع لفرع main
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Source Code
+      - name: Checkout Source
         uses: actions/checkout@v4
 
       - name: Set up Node.js
@@ -18,16 +17,27 @@ jobs:
           node-version: 20
 
       - name: Install Dependencies
-        run: |
-          npm install @capacitor/core @capacitor/cli @capacitor/android
-          npm install
+        run: npm install
 
-      - name: Initialize Capacitor
+      - name: Prepare Web Assets
         run: |
-          npx cap init "recitations" "com.recitations.myapp" --web-dir www
+          mkdir -p www
+          cp index.html www/
+          cp html2canvas.min.js www/
+          cp quran.txt www/
+          cp fds.png www/
+          cp fdss.png www/
+
+      - name: Capacitor Init
+        run: |
+          npx cap init "آية اليوم" "com.ayah.today" --web-dir www
           npx cap add android
 
-      - name: Sync Web Assets to Android
+      - name: Android Permissions
+        run: |
+          sed -i '/<application/i \    <uses-permission android:name="android:permission.READ_EXTERNAL_STORAGE" />\n    <uses-permission android:name="android:permission.WRITE_EXTERNAL_STORAGE" />' android/app/src/main/AndroidManifest.xml
+
+      - name: Sync Android
         run: npx cap sync android
 
       - name: Set up JDK 17
@@ -36,14 +46,23 @@ jobs:
           java-version: '17'
           distribution: 'zulu'
 
-      - name: Build APK with Gradle
+      - name: Build Release APK
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleRelease
 
-      - name: Upload APK Artifact
+      - name: Sign APK
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: android/app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEYSTORE_PASSWORD }}
+
+      - name: Upload Final APK
         uses: actions/upload-artifact@v4
         with:
-          name: my-app-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: AyahToday-Signed-Final
+          path: android/app/build/outputs/apk/release/*.apk
