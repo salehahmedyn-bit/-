@@ -96,12 +96,10 @@
 
         async function initApp() {
             try {
-                // إعدادات شريط الحالة ليكون أبيض مع أيقونات سوداء (ساعة/بطارية)
                 await StatusBar.setStyle({ style: Style.Light });
                 await StatusBar.setBackgroundColor({ color: '#FFFFFF' });
-            } catch(e) { console.log("StatusBar Error:", e); }
+            } catch(e) { console.log(e); }
             
-            // إخفاء شاشة البداية بعد تحميل الأصول
             setTimeout(() => { 
                 document.getElementById('splash-screen').style.transition = 'opacity 0.5s';
                 document.getElementById('splash-screen').style.opacity = '0';
@@ -134,14 +132,13 @@
 
         async function saveImage() {
             try {
-                // طلب الصلاحية بشكل صريح قبل بدء الحفظ
-                const check = await Filesystem.checkPermissions();
-                if (check.publicStorage !== 'granted') {
-                    const request = await Filesystem.requestPermissions();
-                    if (request.publicStorage !== 'granted') {
-                        alert("التطبيق يحتاج صلاحية الوصول للملفات لحفظ الصورة");
-                        return;
+                try {
+                    const check = await Filesystem.checkPermissions();
+                    if (check.publicStorage !== 'granted') {
+                        await Filesystem.requestPermissions();
                     }
+                } catch (permError) {
+                    console.log("Permission check skipped");
                 }
 
                 const canvas = await html2canvas(document.getElementById('captureArea'), { 
@@ -160,13 +157,14 @@
                     recursive: true
                 });
 
-                alert("تم الحفظ في مجلد Documents بنجاح");
+                alert("تم الحفظ في المستندات بنجاح");
             } catch (e) {
-                alert("خطأ: " + e.message);
+                alert("خطأ: " + JSON.stringify(e));
             }
         }
 
         window.onload = initApp;
     </script>
 </body>
-                </html>
+</html>
+
