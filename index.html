@@ -132,19 +132,24 @@
 
         async function saveImage() {
             try {
+                // محاولة تجاهل الأخطاء البسيطة في التحقق من الإذن لأن أندرويد الحديث معقد في هذه النقطة
                 try {
-                    const check = await Filesystem.checkPermissions();
-                    if (check.publicStorage !== 'granted') {
-                        await Filesystem.requestPermissions();
-                    }
-                } catch (permError) {
-                    console.log("Permission check skipped");
+                    await Filesystem.requestPermissions();
+                } catch (permErr) {
+                    console.log("Permission request info: " + permErr);
                 }
 
-                const canvas = await html2canvas(document.getElementById('captureArea'), { 
+                // التأكد من تحميل المكتبة
+                if (typeof html2canvas === 'undefined') {
+                    throw new Error("مكتبة تحويل الصورة لم يتم تحميلها بشكل صحيح");
+                }
+
+                const element = document.getElementById('captureArea');
+                const canvas = await html2canvas(element, { 
                     scale: 3, 
                     backgroundColor: null,
-                    useCORS: true
+                    useCORS: true,
+                    allowTaint: true
                 });
                 
                 const base64Data = canvas.toDataURL("image/png").replace(/^data:image\/png;base64,/, "");
@@ -157,9 +162,11 @@
                     recursive: true
                 });
 
-                alert("تم الحفظ في المستندات بنجاح");
+                alert("تم الحفظ في المستندات (Documents) بنجاح");
             } catch (e) {
-                alert("خطأ: " + JSON.stringify(e));
+                // هذا التعديل سيظهر لك رسالة الخطأ الحقيقية بدلاً من القوسين الفارغين
+                const msg = e.message || JSON.stringify(e) || e;
+                alert("فشل الحفظ: " + msg);
             }
         }
 
@@ -167,4 +174,3 @@
     </script>
 </body>
 </html>
-
