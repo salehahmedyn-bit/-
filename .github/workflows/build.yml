@@ -17,7 +17,9 @@ jobs:
           node-version: 20
 
       - name: Install Dependencies
-        run: npm install
+        run: |
+          npm install
+          npm install @capacitor/filesystem @capacitor/status-bar @capacitor/core
 
       - name: Prepare Web Assets
         run: |
@@ -35,7 +37,7 @@ jobs:
 
       - name: Fix Android Manifest & Styles
         run: |
-          sed -i '/<application/i \    <uses-permission android:name="android:permission.INTERNET" />\n    <uses-permission android:name="android:permission.READ_EXTERNAL_STORAGE" />\n    <uses-permission android:name="android:permission.WRITE_EXTERNAL_STORAGE" />\n    <uses-permission android:name="android:permission.READ_MEDIA_IMAGES" />' android/app/src/main/AndroidManifest.xml
+          sed -i '/<application/i \    <uses-permission android:name="android:permission.INTERNET" />\n    <uses-permission android:name="android:permission.READ_EXTERNAL_STORAGE" />\n    <uses-permission android:name="android:permission.WRITE_EXTERNAL_STORAGE" />\n    <uses-permission android:name="android:permission.READ_MEDIA_IMAGES" />\n    <uses-permission android:name="android:permission.READ_MEDIA_VIDEO" />' android/app/src/main/AndroidManifest.xml
           sed -i 's/<application/<application android:requestLegacyExternalStorage="true" /' android/app/src/main/AndroidManifest.xml
           sed -i 's/windowNoTitle">true/windowNoTitle">true<\/item><item name="android:windowLightStatusBar">true<\/item><item name="android:statusBarColor">#FFFFFF/g' android/app/src/main/res/values/styles.xml
 
@@ -69,6 +71,5 @@ jobs:
       - name: Upload Final APK
         uses: actions/upload-artifact@v4
         with:
-          name: AyahToday-Fixed
+          name: AyahToday-Fixed-Final
           path: ${{ steps.sign_app.outputs.signedReleaseFile }}
-
