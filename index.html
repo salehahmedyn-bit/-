@@ -8,83 +8,36 @@
     <style>
         :root { --primary: #FFB300; }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        body {
-            height: 100vh; width: 100vw;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            font-family: 'Arial', sans-serif;
-            background: white url('fds.png') no-repeat center center;
-            background-size: cover; overflow: hidden;
-            padding-top: env(safe-area-inset-top);
-        }
-
-        #splash-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: white url('fdss.png') no-repeat center center;
-            background-size: cover; z-index: 9999;
-        }
-
-        .theme-bar {
-            position: absolute; top: 60px; display: flex; gap: 10px;
-            background: rgba(255, 255, 255, 0.6); padding: 12px 18px;
-            border-radius: 30px; backdrop-filter: blur(8px); z-index: 10;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
-        .dot { width: 24px; height: 24px; border-radius: 50%; cursor: pointer; border: 2.5px solid white; transition: transform 0.2s; }
-        .dot:active { transform: scale(0.9); }
-
-        .verse-card {
-            width: 320px; background: rgba(255, 255, 255, 0.98); border-radius: 28px;
-            padding: 45px 25px; text-align: center; position: relative;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-        }
-
-        .quote-icon {
-            position: absolute; top: -25px; left: 50%; transform: translateX(-50%);
-            width: 55px; height: 55px; background: var(--primary); border-radius: 16px;
-            display: flex; align-items: center; justify-content: center; color: white;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-
+        body { height: 100vh; width: 100vw; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Arial', sans-serif; background: white url('fds.png') no-repeat center center; background-size: cover; overflow: hidden; padding-top: env(safe-area-inset-top); }
+        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white url('fdss.png') no-repeat center center; background-size: cover; z-index: 9999; }
+        .theme-bar { position: absolute; top: 60px; display: flex; gap: 10px; background: rgba(255, 255, 255, 0.6); padding: 12px 18px; border-radius: 30px; backdrop-filter: blur(8px); z-index: 10; }
+        .dot { width: 24px; height: 24px; border-radius: 50%; cursor: pointer; border: 2.5px solid white; }
+        .verse-card { width: 320px; background: rgba(255, 255, 255, 0.98); border-radius: 28px; padding: 45px 25px; text-align: center; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
+        .quote-icon { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); width: 55px; height: 55px; background: var(--primary); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; }
         .verse-text { font-size: 20px; font-weight: bold; color: #333; line-height: 1.7; margin: 15px 0; }
-        .quran-bracket { color: var(--primary); font-size: 26px; transition: color 0.3s; }
-        .verse-source { font-size: 14px; color: var(--primary); margin-top: 12px; font-weight: bold; transition: color 0.3s; }
-
+        .quran-bracket { color: var(--primary); font-size: 26px; }
+        .verse-source { font-size: 14px; color: var(--primary); margin-top: 12px; font-weight: bold; }
         .controls { margin-top: 45px; display: flex; gap: 30px; }
-        .btn-action {
-            width: 65px; height: 65px; background: white; border: none; border-radius: 50%;
-            color: var(--primary); display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08); cursor: pointer; transition: all 0.2s;
-        }
-        .btn-action:active { transform: scale(0.95); }
+        .btn-action { width: 65px; height: 65px; background: white; border: none; border-radius: 50%; color: var(--primary); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
         .btn-action.primary { background: var(--primary); color: white; }
         svg { width: 28px; height: 28px; fill: currentColor; }
     </style>
 </head>
 <body>
-
     <div id="splash-screen"></div>
-
     <div class="theme-bar">
         <div class="dot" style="background: #FFB300;" onclick="changeTheme('#FFB300')"></div>
         <div class="dot" style="background: #2E7D32;" onclick="changeTheme('#2E7D32')"></div>
         <div class="dot" style="background: #1565C0;" onclick="changeTheme('#1565C0')"></div>
-        <div class="dot" style="background: #C62828;" onclick="changeTheme('#C62828')"></div>
-        <div class="dot" style="background: #6A1B9A;" onclick="changeTheme('#6A1B9A')"></div>
         <div class="dot" style="background: #000000;" onclick="changeTheme('#000000')"></div>
     </div>
-
     <div id="captureArea" style="padding: 20px; background: transparent;">
         <div class="verse-card">
             <div class="quote-icon" id="theme-bg1"><svg viewBox="0 0 448 512"><path d="M0 216C0 149.7 53.7 96 120 96h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8c-39.8 0-72 32.2-72 72v24h80c26.5 0 48 21.5 48 48v128c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V216zm256 0c0-66.3 53.7-120 120-120h8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8c-39.8 0-72 32.2-72 72v24h80c26.5 0 48 21.5 48 48v128c0 26.5-21.5 48-48 48H304c-26.5 0-48-21.5-48-48V216z"/></svg></div>
-            <div class="verse-text">
-                <span class="quran-bracket">﴿</span><span id="ayah">...</span><span class="quran-bracket">﴾</span>
-            </div>
+            <div class="verse-text"><span class="quran-bracket">﴿</span><span id="ayah">...</span><span class="quran-bracket">﴾</span></div>
             <div class="verse-source" id="source">...</div>
         </div>
     </div>
-
     <div class="controls">
         <button class="btn-action" onclick="loadVerse()"><svg viewBox="0 0 512 512"><path d="M463.5 224H472c13.3 0 24-10.7 24-24V72c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8H463.5z"/></svg></button>
         <button class="btn-action primary" id="theme-bg2" onclick="saveImage()"><svg viewBox="0 0 512 512"><path d="M149.1 64.8L138.7 96H64C28.7 96 0 124.7 0 160V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H373.3L362.9 64.8C356.4 45.2 338.1 32 317.4 32H194.6c-20.7 0-39 13.2-45.5 32.8zM256 192a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"/></svg></button>
@@ -92,20 +45,18 @@
 
     <script src="https://unpkg.com/@capacitor/core@latest/dist/capacitor.js"></script>
     <script>
-        const { Filesystem, Directory, StatusBar, Style } = Capacitor.Plugins;
-
         async function initApp() {
             try {
-                await StatusBar.setStyle({ style: Style.Light });
-                await StatusBar.setBackgroundColor({ color: '#FFFFFF' });
-            } catch(e) { console.log(e); }
-            
+                const { StatusBar } = window.Capacitor.Plugins;
+                if(StatusBar) {
+                    await StatusBar.setStyle({ style: 'LIGHT' });
+                    await StatusBar.setBackgroundColor({ color: '#FFFFFF' });
+                }
+            } catch(e) {}
             setTimeout(() => { 
-                document.getElementById('splash-screen').style.transition = 'opacity 0.5s';
                 document.getElementById('splash-screen').style.opacity = '0';
                 setTimeout(() => { document.getElementById('splash-screen').style.display = 'none'; }, 500);
             }, 2500);
-            
             loadVerse();
         }
 
@@ -113,8 +64,6 @@
             document.documentElement.style.setProperty('--primary', color);
             document.getElementById('theme-bg1').style.backgroundColor = color;
             document.getElementById('theme-bg2').style.backgroundColor = color;
-            const elements = document.querySelectorAll('.quran-bracket, .verse-source');
-            elements.forEach(el => el.style.color = color);
         }
 
         async function loadVerse() {
@@ -125,31 +74,26 @@
                 const v = s.verses[Math.floor(Math.random() * s.verses.length)];
                 document.getElementById('ayah').innerText = v.text;
                 document.getElementById('source').innerText = `سورة ${s.name} - آية ${v.id}`;
-            } catch(e) { 
-                document.getElementById('ayah').innerText = "حدث خطأ في تحميل البيانات"; 
-            }
+            } catch(e) {}
         }
 
         async function saveImage() {
             try {
-                // محاولة تجاهل الأخطاء البسيطة في التحقق من الإذن لأن أندرويد الحديث معقد في هذه النقطة
-                try {
-                    await Filesystem.requestPermissions();
-                } catch (permErr) {
-                    console.log("Permission request info: " + permErr);
+                const Capacitor = window.Capacitor;
+                if (!Capacitor || !Capacitor.Plugins.Filesystem) {
+                    alert("نظام الملفات غير جاهز بعد");
+                    return;
                 }
 
-                // التأكد من تحميل المكتبة
-                if (typeof html2canvas === 'undefined') {
-                    throw new Error("مكتبة تحويل الصورة لم يتم تحميلها بشكل صحيح");
-                }
+                const Filesystem = Capacitor.Plugins.Filesystem;
 
-                const element = document.getElementById('captureArea');
-                const canvas = await html2canvas(element, { 
+                // طلب الصلاحية
+                await Filesystem.requestPermissions();
+
+                const canvas = await html2canvas(document.getElementById('captureArea'), { 
                     scale: 3, 
                     backgroundColor: null,
-                    useCORS: true,
-                    allowTaint: true
+                    useCORS: true
                 });
                 
                 const base64Data = canvas.toDataURL("image/png").replace(/^data:image\/png;base64,/, "");
@@ -158,18 +102,15 @@
                 await Filesystem.writeFile({
                     path: fileName,
                     data: base64Data,
-                    directory: Directory.Documents,
+                    directory: 'DOCUMENTS', // استخدام النص المباشر لتجنب undefined
                     recursive: true
                 });
 
-                alert("تم الحفظ في المستندات (Documents) بنجاح");
+                alert("تم الحفظ في المستندات بنجاح");
             } catch (e) {
-                // هذا التعديل سيظهر لك رسالة الخطأ الحقيقية بدلاً من القوسين الفارغين
-                const msg = e.message || JSON.stringify(e) || e;
-                alert("فشل الحفظ: " + msg);
+                alert("فشل الحفظ: " + (e.message || "تأكد من إعطاء الصلاحية"));
             }
         }
-
         window.onload = initApp;
     </script>
 </body>
