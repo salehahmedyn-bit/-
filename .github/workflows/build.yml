@@ -71,3 +71,4 @@ jobs:
         with:
           name: AyahToday-Fixed
           path: ${{ steps.sign_app.outputs.signedReleaseFile }}
+
